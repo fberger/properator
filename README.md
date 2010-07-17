@@ -17,8 +17,8 @@ java -jar /project/path /project/path/src/main/resources/log4j.properties
 Example output
 --------------
 
-`#log4j.logger.com.example.package=ALL
-#log4j.logger.com.example.package.ClassWithLogger1=ALL
-#log4j.logger.com.example.package.ClassWithLogger2=ALL
-#log4j.logger.com.example.package2=ALL
-#log4j.logger.com.exmaple.package2.ClassWithLogger3=ALL`
+> #log4j.logger.com.example.package=ALL
+> #log4j.logger.com.example.package.ClassWithLogger1=ALL
+> #log4j.logger.com.example.package.ClassWithLogger2=ALL
+> #log4j.logger.com.example.package2=ALL
+> #log4j.logger.com.exmaple.package2.ClassWithLogger3=ALL
