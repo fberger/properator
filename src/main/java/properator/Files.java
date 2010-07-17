@@ -7,8 +7,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 
+/**
+ * Files utility class.
+ * 
+ * @author Felix Berger
+ */
 public class Files {
 	
+	/**
+	 * Finds all files matching one of extensions recursively.
+	 */
 	public static Iterable<File> getFilesRecursive(final File directory, final String...extensions) {
 		return new Iterable<File>() {
 			@Override
