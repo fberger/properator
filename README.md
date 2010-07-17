@@ -8,7 +8,7 @@ file with all found packages and defined loggers commented out by default.
 Usage
 =====
 
-java -jar /project/path /project/path/src/main/resources/log4j.properties
+	java -jar properator.jar /project/path /project/path/src/main/resources/log4j.properties
 
 * The first argument is the directory that will be scanned for class files. 
 * The second argument is the path name of the log4j properties file that is
