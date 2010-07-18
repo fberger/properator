@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import com.sun.org.apache.bcel.internal.classfile.ClassParser;
 import com.sun.org.apache.bcel.internal.classfile.Field;
@@ -27,7 +29,13 @@ public class Log4JPropertiesGenerator {
 	public static void main(String[] args) throws IOException {
 		Log4JPropertiesGenerator propertiesGenerator = new Log4JPropertiesGenerator();
 		System.out.println("Scanning for loggers");
+		File projectRoot = new File(args[0]);
+		if (!projectRoot.isDirectory()) {
+			System.out.println(projectRoot + " is not a directory");
+			System.exit(1);
+		}
 		Set<String> logs = propertiesGenerator.getLogs(new File(args[0]));
+		logs.addAll(propertiesGenerator.getJarLogs(new File(args[0])));
 		Set<String> packages = propertiesGenerator.getPackages(logs);
 		logs.addAll(packages);
 		StringBuilder builder = new StringBuilder();
@@ -62,6 +70,27 @@ public class Log4JPropertiesGenerator {
 			if (log != null) {
 				logs.add(log);
 			}
+		}
+		return logs;
+	}
+	
+	public Set<String> getJarLogs(File path) throws IOException {
+		Set<String> logs = new TreeSet<String>();
+		for (File jar : Files.getFilesRecursive(path, "jar")) {
+			JarFile jarFile = new JarFile(jar);
+			String jarFilePath = jar.getPath();
+			for (JarEntry entry : Iterators.iterable(jarFile.entries())) {
+				String name = entry.getName();
+				if (name.endsWith(".class")) {
+					ClassParser parser = new ClassParser(jarFilePath, name);
+					JavaClass clazz = parser.parse();
+					String log = getLog(clazz);
+					if (log != null) {
+						logs.add(log);
+					}	
+				}
+			}
+			
 		}
 		return logs;
 	}
